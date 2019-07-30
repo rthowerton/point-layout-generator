@@ -75,35 +75,15 @@ namespace AlgorithmTest
         // Check to see if a square is wholly within the 150mm radius
         public void isValid()
         {
-            // Sides of the triangle whose hypoteneuse is 150mm from [0,0]
-            int a = 0, b = 0;
-            // Determine which quadrant the square is in
-            // and account for negative values
-            if (center.x > 0 && center.y > 0)
+            Point[] corners = this.getCorners();
+            foreach (Point corner in corners)
             {
-                b = tr.x;
+                // Perform the check
+                if ((corner.x * corner.x) + (corner.y * corner.y) > (Generator.radius * Generator.radius))
+                    valid = false;
+                else
+                    valid = true;
             }
-            else if (center.x < 0 && center.y > 0)
-            {
-                a = tl.y;
-                b = tr.x * -1;
-            }
-            else if (center.x < 0 && center.y < 0)
-            {
-                a = bl.y * -1;
-                b = bl.x * -1;
-            }
-            else if (center.x > 0 && center.y < 0)
-            {
-                a = br.y * -1;
-                b = br.x;
-            }
-
-            // Perform the check
-            if ((a * a) + (b * b) > (150 * 150))
-                valid = false;
-            else
-                valid = true;
         }
 
         public bool getValid()
