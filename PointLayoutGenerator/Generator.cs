@@ -271,6 +271,8 @@ namespace PointLayoutGenerator
         {
             // Clear just the current inspection points
             dieVisualizer.Series[1].Points.Clear();
+            // And the text box
+            coordBox.Text = "";
 
             if (dice == null)
             {
