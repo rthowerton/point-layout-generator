@@ -1,0 +1,10 @@
+D:\Users\Ryan\Documents\Visual Studio Code\PointLayoutGenerator\bin\Release\PointLayoutGenerator.exe.config
+D:\Users\Ryan\Documents\Visual Studio Code\PointLayoutGenerator\bin\Release\PointLayoutGenerator.exe
+D:\Users\Ryan\Documents\Visual Studio Code\PointLayoutGenerator\bin\Release\PointLayoutGenerator.pdb
+D:\Users\Ryan\Documents\Visual Studio Code\PointLayoutGenerator\obj\Release\PointLayoutGenerator.csprojAssemblyReference.cache
+D:\Users\Ryan\Documents\Visual Studio Code\PointLayoutGenerator\obj\Release\PointLayoutGenerator.Generator.resources
+D:\Users\Ryan\Documents\Visual Studio Code\PointLayoutGenerator\obj\Release\PointLayoutGenerator.Properties.Resources.resources
+D:\Users\Ryan\Documents\Visual Studio Code\PointLayoutGenerator\obj\Release\PointLayoutGenerator.csproj.GenerateResource.cache
+D:\Users\Ryan\Documents\Visual Studio Code\PointLayoutGenerator\obj\Release\PointLayoutGenerator.csproj.CoreCompileInputs.cache
+D:\Users\Ryan\Documents\Visual Studio Code\PointLayoutGenerator\obj\Release\PointLayoutGenerator.exe
+D:\Users\Ryan\Documents\Visual Studio Code\PointLayoutGenerator\obj\Release\PointLayoutGenerator.pdb
