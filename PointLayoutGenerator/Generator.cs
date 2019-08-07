@@ -20,7 +20,7 @@ namespace PointLayoutGenerator
 
         /* Variables to track dimensions of the grid */
         private int dieWidth, dieHeight, gridDimensionX, gridDimensionY;
-        private float[] xLowHigh, yLowHigh;
+        private float[] xLowHigh = { 0, 0 }, yLowHigh = { 0, 0 };
         
         /* Variables to track location within grid */
         private int xCoord, yCoord;
@@ -28,7 +28,7 @@ namespace PointLayoutGenerator
         /* Layout Strategy Trackers */
         private string layoutStrategy;
         private int numPoints;
-        private int inspectionPitch;
+        private int inspectionPitch = 1;
 
         public Generator()
         {
@@ -91,6 +91,8 @@ namespace PointLayoutGenerator
             dieWidth = (int)dieWidthInput.Value;
             gridDimensionX = getXDimension(dieWidth);
             xLowHigh = getLowHigh(dieWidth);
+
+            //setMaximums();
         }
 
         /* When the die height input is changed, perform
@@ -104,7 +106,31 @@ namespace PointLayoutGenerator
             dieHeight = (int)dieHeightInput.Value;
             gridDimensionY = getYDimension(dieHeight);
             yLowHigh = getLowHigh(dieHeight);
+
+            //setMaximums();
         }
+
+        /* When the width or height of the die changes,
+         * change the maximum number of points that can
+         * be generated.
+         */
+
+        /*private void setMaximums()
+        {
+            //pitchValue.Maximum = (int)((xLowHigh[1] * Math.Sin(Math.PI * 0.25)) / 2) - 1;
+
+            // The number of points that can be set is
+            // wafer width + wafer height + 2 * wafer diagonal - 3
+            // so as to only count the center once
+            numPointsCircle.Maximum = (int)((gridDimensionX + gridDimensionY +
+                ((gridDimensionY / Math.Sin(Math.Atan(gridDimensionY / gridDimensionX))))) / inspectionPitch) - 3;
+
+            // The number of points that can be set is
+            // wafer width + wafer height + 2 * wafer diagonal - 4
+            // so as to never count the center point
+            numPointsRectangle.Maximum = (int)((gridDimensionX / 2 + gridDimensionY / 2 +
+                ((gridDimensionY / Math.Sin(Math.Atan(gridDimensionY / gridDimensionX))))) / inspectionPitch) - 4;
+        }*/
 
         /* When the number of points the user wants is
          * changed, immediately take note of that value.
@@ -127,6 +153,8 @@ namespace PointLayoutGenerator
         private void pitchValue_ValueChanged(object sender, EventArgs e)
         {
             inspectionPitch = (int)pitchValue.Value;
+
+            //setMaximums();
         }
 
         /* Get the total number of dice along the
@@ -216,7 +244,7 @@ namespace PointLayoutGenerator
             {
                 dieVisualizer.Series[1].Points.AddXY(d.getCenter().x, d.getCenter().y);
                 string text = coordBox.Text;
-                text += "[" + d.getCenter().x.ToString() + "," + d.getCenter().y.ToString() + "]";
+                text += "X" + d.getCenter().x.ToString() + " " + "Y" + d.getCenter().y.ToString() + "\n";
                 coordBox.Text = text;
             }
         }
@@ -382,7 +410,7 @@ namespace PointLayoutGenerator
             else
             {
                 // Track the amount the quadrants expand by
-                int dMod = 0;
+                int dMod;
 
                 // Print the center of the circle
                 Die center = dice[xCoord / 2, yCoord / 2];
