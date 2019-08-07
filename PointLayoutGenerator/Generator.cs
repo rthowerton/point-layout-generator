@@ -30,6 +30,9 @@ namespace PointLayoutGenerator
         private int numPoints;
         private int inspectionPitch = 1;
 
+        /* Store text */
+        List<string> text = new List<string>();
+
         public Generator()
         {
             InitializeComponent();
@@ -248,9 +251,9 @@ namespace PointLayoutGenerator
             if (d.getValid())
             {
                 dieVisualizer.Series[1].Points.AddXY(d.getCenter().x, d.getCenter().y);
-                string text = coordBox.Text;
-                text += "X" + d.getCenter().x.ToString() + " " + "Y" + d.getCenter().y.ToString() + "\n";
-                coordBox.Text = text;
+                //string text = coordBox.Text;
+                text.Add("X" + d.getCenter().x.ToString() + " " + "Y" + d.getCenter().y.ToString() + "\n");
+                coordBox.Text += text.Last();
             }
         }
 
@@ -258,6 +261,20 @@ namespace PointLayoutGenerator
          * a text file containing the X and Y coordinates
          * of all inspection points.
          */
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            // Allow the user to name their file
+            savePointsDialogue.ShowDialog();
+
+            if (savePointsDialogue.FileName != "")
+            {
+                if (savePointsDialogue.CheckFileExists)
+                {
+                    System.IO.File.WriteAllText(savePointsDialogue.FileName, "");
+                }
+                System.IO.File.WriteAllLines(savePointsDialogue.FileName, text);
+            }
+        }
 
         /* When the generateButton is clicked, it will first
          * generate a new array of die, and print their centers
