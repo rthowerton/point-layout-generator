@@ -21,7 +21,7 @@ namespace PointLayoutGenerator
         /* Variables to track dimensions of the grid */
         private int dieWidth, dieHeight, gridDimensionX, gridDimensionY;
         private float[] xLowHigh = { 0, 0 }, yLowHigh = { 0, 0 };
-        
+
         /* Variables to track location within grid */
         private int xCoord, yCoord;
 
@@ -63,7 +63,7 @@ namespace PointLayoutGenerator
          */
         private void LayoutOptionsBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(layoutOptionsBox.SelectedIndex == 0)
+            if (layoutOptionsBox.SelectedIndex == 0)
             {
                 numPointsCircle.Visible = false;
                 numPointsCircle.Value = numPointsCircle.Minimum;
@@ -203,7 +203,7 @@ namespace PointLayoutGenerator
         private float[] getLowHigh(int dieDimension)
         {
             float[] toReturn = new float[2];
-            if(radius % dieDimension == 0)
+            if (radius % dieDimension == 0)
             {
                 toReturn[0] = -1 * radius;
                 toReturn[1] = radius;
@@ -212,13 +212,18 @@ namespace PointLayoutGenerator
             else
             {
                 toReturn[1] = radius - 1;
-                while(toReturn[1] % dieDimension != 0)
+                while (toReturn[1] % dieDimension != 0)
                 {
                     toReturn[1]--;
                 }
                 toReturn[0] = -1 * toReturn[1];
                 return toReturn;
             }
+        }
+
+        private void SavePointsDialogue_FileOk(object sender, CancelEventArgs e)
+        {
+
         }
 
         /* Based on the valid flag, prints a point
@@ -249,29 +254,53 @@ namespace PointLayoutGenerator
             }
         }
 
-        /* When the plotWafer button is clicked,
-         * this function takes in the user input
-         * and prints the center points of all
-         * valid dice to the dieVisualizer chart.
+        /* When the saveButton is clicked, it will output
+         * a text file containing the X and Y coordinates
+         * of all inspection points.
          */
-        private void PlotButton_Click(object sender, EventArgs e)
+
+        /* When the generateButton is clicked, it will first
+         * generate a new array of die, and print their centers
+         * to the dieVisualizer chart. It will then highlight
+         * inspection points on the wafer.
+         */
+        private void GenerateButton_Click(object sender, EventArgs e)
         {
             // Clear all points on the old wafer
             dieVisualizer.Series[0].Points.Clear();
             dieVisualizer.Series[1].Points.Clear();
 
+            // And the text box
+            coordBox.Text = "";
+
+            // Generate a new grid
             dice = new Die[gridDimensionX, gridDimensionY];
 
             // Set the gridlines to show the edges of the dice.
-            // Has the added effect of further cluttering the chart
-            // for purposes of obfuscation
             dieVisualizer.ChartAreas[0].AxisX.Interval = dieWidth;
             dieVisualizer.ChartAreas[0].AxisX.IntervalOffset = dieWidth / 2;
             dieVisualizer.ChartAreas[0].AxisY.Interval = dieHeight;
             dieVisualizer.ChartAreas[0].AxisY.IntervalOffset = dieHeight / 2;
 
-            // Fill in array, using xCoord and yCoord to reference the
-            // array later.
+            // Fill in array
+            plotWafer();
+
+            // Highlight inspection points
+            if (layoutStrategy == "Square")
+            {
+                layoutIPSquare();
+            }
+            else
+            {
+                layoutIPCircle();
+            }
+        }
+
+        /* Plot the actual wafer on the chart.
+         * Used by GenerateButton_Click
+         */
+        private void plotWafer()
+        {
             xCoord = 0;
             for (float i = xLowHigh[0]; i <= xLowHigh[1]; i += dieWidth)
             {
@@ -298,68 +327,13 @@ namespace PointLayoutGenerator
                 }
                 xCoord++;
             }
-
-            //testCoords();
         }
 
-        /* If this is the first button clicked, it will
-         * do the same as the plotWafer button click,
-         * generating an initial array. It will then highlight
-         * inspection points on the wafer. If it is not
-         * the first button clicked, it will just take
-         * the current array and highlight the inspection
-         * points based on user input.
+        /* Layout inspection points in a square.
+         * Called by GenerateButton_Click
          */
-        private void GenerateButton_Click(object sender, EventArgs e)
+        private void layoutIPSquare()
         {
-            // Clear just the current inspection points
-            dieVisualizer.Series[1].Points.Clear();
-            // And the text box
-            coordBox.Text = "";
-
-            // Check to see if a new wafer needs to be generated
-            if (dice == null)
-            {
-                dice = new Die[gridDimensionX, gridDimensionY];
-
-                // Set the gridlines to show the edges of the dice.
-                dieVisualizer.ChartAreas[0].AxisX.Interval = dieWidth;
-                dieVisualizer.ChartAreas[0].AxisX.IntervalOffset = dieWidth / 2;
-                dieVisualizer.ChartAreas[0].AxisY.Interval = dieHeight;
-                dieVisualizer.ChartAreas[0].AxisY.IntervalOffset = dieHeight / 2;
-
-                // Fill in array
-                xCoord = 0;
-                for (float i = xLowHigh[0]; i <= xLowHigh[1]; i += dieWidth)
-                {
-                    yCoord = 0;
-                    for (float j = yLowHigh[0]; j <= yLowHigh[1]; j += dieHeight)
-                    {
-                        // Create 5 new points that define the current die
-                        Point bl = new Point(i - (float)(dieWidth / 2), j - (float)(dieHeight / 2));
-                        Point br = new Point(i + (float)(dieWidth / 2), j - (float)(dieHeight / 2));
-                        Point tl = new Point(i - (float)(dieWidth / 2), j + (float)(dieHeight / 2));
-                        Point tr = new Point(i + (float)(dieWidth / 2), j + (float)(dieHeight / 2));
-                        Point center = new Point(i, j);
-
-                        // Create the new die and validate it
-                        Die d = new Die(tl, tr, bl, br, center);
-                        d.isValid();
-
-                        // If the die is valid, it will be printed
-                        showValidDie(d);
-
-                        // Actually add the die to the array
-                        dice[xCoord, yCoord] = d;
-                        yCoord++;
-                    }
-                    xCoord++;
-                }
-
-                //testCoords();
-            }
-
-
             // Store 4 dice for the 4 quadrants
             Die[] corners = new Die[4];
 
@@ -371,85 +345,95 @@ namespace PointLayoutGenerator
 
             // Generate inspection points
             int pointsLeft = numPoints;
-            if (layoutStrategy == "Square")
+            while (pointsLeft > 0)
             {
-                while(pointsLeft > 0)
+                // Increment the modifiers
+                cMod += inspectionPitch;
+
+                // Set the coordinates of the dice to inspect
+                corners[0] = dice[(xCoord / 2) + cMod, (yCoord / 2) + cMod];
+                corners[1] = dice[(xCoord / 2) + cMod, (yCoord / 2) - cMod];
+                corners[2] = dice[(xCoord / 2) - cMod, (yCoord / 2) - cMod];
+                corners[3] = dice[(xCoord / 2) - cMod, (yCoord / 2) + cMod];
+
+                axes[0] = dice[xCoord / 2, (yCoord / 2) + cMod];
+                axes[1] = dice[(xCoord / 2) + cMod, yCoord / 2];
+                axes[2] = dice[xCoord / 2, (yCoord / 2) - cMod];
+                axes[3] = dice[(xCoord / 2) - cMod, yCoord / 2];
+
+                // Print the corners
+                for (int i = 0; i < 4; i++)
                 {
-                    // Increment the modifiers
-                    cMod += inspectionPitch;
-
-                    // Set the coordinates of the dice to inspect
-                    corners[0] = dice[(xCoord / 2) + cMod, (yCoord / 2) + cMod];
-                    corners[1] = dice[(xCoord / 2) + cMod, (yCoord / 2) - cMod];
-                    corners[2] = dice[(xCoord / 2) - cMod, (yCoord / 2) - cMod];
-                    corners[3] = dice[(xCoord / 2) - cMod, (yCoord / 2) + cMod];
-
-                    axes[0] = dice[xCoord / 2, (yCoord / 2) + cMod];
-                    axes[1] = dice[(xCoord / 2) + cMod, yCoord / 2];
-                    axes[2] = dice[xCoord / 2, (yCoord / 2) - cMod];
-                    axes[3] = dice[(xCoord / 2) - cMod, yCoord / 2];
-
-                    // Print the corners
-                    for (int i = 0; i < 4; i++)
-                    {
-                        showInspectedDie(corners[i]);
-                        pointsLeft--;
-                    }
-
-                    // If there are more points to print, print the axes
-                    if(pointsLeft > 0)
-                    {
-                        for (int i = 0; i < 4; i++)
-                        {
-                            showInspectedDie(axes[i]);
-                            pointsLeft--;
-                        }
-                    }
+                    showInspectedDie(corners[i]);
+                    pointsLeft--;
                 }
-            }
-            else
-            {
-                // Track the amount the quadrants expand by
-                int dMod;
 
-                // Print the center of the circle
-                Die center = dice[xCoord / 2, yCoord / 2];
-                showInspectedDie(center);
-                pointsLeft--;
-
-                while(pointsLeft > 0)
+                // If there are more points to print, print the axes
+                if (pointsLeft > 0)
                 {
-                    // Increment the axis modifiers
-                    cMod += inspectionPitch;
-                    // Calculate the diagonals of the circle based on the modifier
-                    dMod = (int)(cMod * Math.Sin(Math.PI * 0.25));
-
-                    // Set the coordinates of the dice to inspect
-                    axes[0] = dice[xCoord / 2, (yCoord / 2) + cMod];
-                    axes[1] = dice[(xCoord / 2) + cMod, yCoord / 2];
-                    axes[2] = dice[xCoord / 2, (yCoord / 2) - cMod];
-                    axes[3] = dice[(xCoord / 2) - cMod, yCoord / 2];
-
-                    corners[0] = dice[(xCoord / 2) + dMod, (yCoord / 2) + dMod];
-                    corners[1] = dice[(xCoord / 2) + dMod, (yCoord / 2) - dMod];
-                    corners[2] = dice[(xCoord / 2) - dMod, (yCoord / 2) - dMod];
-                    corners[3] = dice[(xCoord / 2) - dMod, (yCoord / 2) + dMod];
-
-                    // Print the axes
                     for (int i = 0; i < 4; i++)
                     {
                         showInspectedDie(axes[i]);
                         pointsLeft--;
                     }
+                }
+            }
+        }
 
-                    // If there are points left to print, print the quadrants
-                    if(pointsLeft > 0)
+        /* Layout inspection points in a circle.
+         * Called by GenerateButton_Click
+         */
+        private void layoutIPCircle()
+        {
+            // Store 4 dice for the 4 quadrants
+            Die[] corners = new Die[4];
+
+            // Store 4 dice along the axes
+            Die[] axes = new Die[4];
+
+            // Track the amount the shapes expand by
+            int cMod = 0, dMod;
+
+            // Generate inspection points
+            int pointsLeft = numPoints;
+
+            // Print the center of the circle
+            Die center = dice[xCoord / 2, yCoord / 2];
+            showInspectedDie(center);
+            pointsLeft--;
+
+            while (pointsLeft > 0)
+            {
+                // Increment the axis modifiers
+                cMod += inspectionPitch;
+                // Calculate the diagonals of the circle based on the modifier
+                dMod = (int)(cMod * Math.Sin(Math.PI * 0.25));
+
+                // Set the coordinates of the dice to inspect
+                axes[0] = dice[xCoord / 2, (yCoord / 2) + cMod];
+                axes[1] = dice[(xCoord / 2) + cMod, yCoord / 2];
+                axes[2] = dice[xCoord / 2, (yCoord / 2) - cMod];
+                axes[3] = dice[(xCoord / 2) - cMod, yCoord / 2];
+
+                corners[0] = dice[(xCoord / 2) + dMod, (yCoord / 2) + dMod];
+                corners[1] = dice[(xCoord / 2) + dMod, (yCoord / 2) - dMod];
+                corners[2] = dice[(xCoord / 2) - dMod, (yCoord / 2) - dMod];
+                corners[3] = dice[(xCoord / 2) - dMod, (yCoord / 2) + dMod];
+
+                // Print the axes
+                for (int i = 0; i < 4; i++)
+                {
+                    showInspectedDie(axes[i]);
+                    pointsLeft--;
+                }
+
+                // If there are points left to print, print the quadrants
+                if (pointsLeft > 0)
+                {
+                    for (int i = 0; i < 4; i++)
                     {
-                        for(int i = 0; i < 4; i++)
-                        {
-                            showInspectedDie(corners[i]);
-                            pointsLeft--;
-                        }
+                        showInspectedDie(corners[i]);
+                        pointsLeft--;
                     }
                 }
             }
