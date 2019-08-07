@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title4 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.layoutOptionsBox = new System.Windows.Forms.ComboBox();
             this.numPointsCircle = new System.Windows.Forms.NumericUpDown();
             this.numPointsRectangle = new System.Windows.Forms.NumericUpDown();
@@ -45,12 +45,16 @@
             this.widthLabel = new System.Windows.Forms.Label();
             this.heightLabel = new System.Windows.Forms.Label();
             this.dieVisualizer = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.plotButton = new System.Windows.Forms.Button();
+            this.pitchLabel = new System.Windows.Forms.Label();
+            this.pitchValue = new System.Windows.Forms.NumericUpDown();
+            this.savePointsDialogue = new System.Windows.Forms.SaveFileDialog();
+            this.saveButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numPointsCircle)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numPointsRectangle)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dieHeightInput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dieWidthInput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dieVisualizer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pitchValue)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutOptionsBox
@@ -60,7 +64,7 @@
             this.layoutOptionsBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.layoutOptionsBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.layoutOptionsBox.FormattingEnabled = true;
-            this.layoutOptionsBox.Location = new System.Drawing.Point(168, 6);
+            this.layoutOptionsBox.Location = new System.Drawing.Point(183, 6);
             this.layoutOptionsBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.layoutOptionsBox.Name = "layoutOptionsBox";
             this.layoutOptionsBox.Size = new System.Drawing.Size(160, 28);
@@ -77,7 +81,7 @@
             0,
             0,
             0});
-            this.numPointsCircle.Location = new System.Drawing.Point(168, 42);
+            this.numPointsCircle.Location = new System.Drawing.Point(183, 42);
             this.numPointsCircle.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.numPointsCircle.Maximum = new decimal(new int[] {
             90000,
@@ -109,7 +113,7 @@
             0,
             0,
             0});
-            this.numPointsRectangle.Location = new System.Drawing.Point(168, 42);
+            this.numPointsRectangle.Location = new System.Drawing.Point(183, 42);
             this.numPointsRectangle.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.numPointsRectangle.Maximum = new decimal(new int[] {
             90000,
@@ -136,7 +140,7 @@
             this.generateButton.AutoSize = true;
             this.generateButton.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.generateButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.generateButton.Location = new System.Drawing.Point(61, 93);
+            this.generateButton.Location = new System.Drawing.Point(26, 109);
             this.generateButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.generateButton.Name = "generateButton";
             this.generateButton.Size = new System.Drawing.Size(221, 30);
@@ -148,7 +152,7 @@
             // coordBox
             // 
             this.coordBox.Location = new System.Drawing.Point(12, 146);
-            this.coordBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.coordBox.Margin = new System.Windows.Forms.Padding(2);
             this.coordBox.Name = "coordBox";
             this.coordBox.Size = new System.Drawing.Size(591, 563);
             this.coordBox.TabIndex = 4;
@@ -180,7 +184,7 @@
             // 
             this.dieHeightInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dieHeightInput.Location = new System.Drawing.Point(558, 45);
-            this.dieHeightInput.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dieHeightInput.Margin = new System.Windows.Forms.Padding(2);
             this.dieHeightInput.Maximum = new decimal(new int[] {
             300,
             0,
@@ -205,7 +209,7 @@
             // 
             this.dieWidthInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dieWidthInput.Location = new System.Drawing.Point(558, 12);
-            this.dieWidthInput.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dieWidthInput.Margin = new System.Windows.Forms.Padding(2);
             this.dieWidthInput.Maximum = new decimal(new int[] {
             300,
             0,
@@ -251,49 +255,89 @@
             // dieVisualizer
             // 
             this.dieVisualizer.BorderlineColor = System.Drawing.Color.Black;
-            chartArea2.Name = "ChartArea1";
-            this.dieVisualizer.ChartAreas.Add(chartArea2);
-            legend2.Enabled = false;
-            legend2.Name = "Center Points";
-            this.dieVisualizer.Legends.Add(legend2);
+            chartArea4.Name = "ChartArea1";
+            this.dieVisualizer.ChartAreas.Add(chartArea4);
+            legend4.Enabled = false;
+            legend4.Name = "Center Points";
+            this.dieVisualizer.Legends.Add(legend4);
             this.dieVisualizer.Location = new System.Drawing.Point(630, 12);
-            this.dieVisualizer.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dieVisualizer.Margin = new System.Windows.Forms.Padding(2);
             this.dieVisualizer.Name = "dieVisualizer";
-            series3.BorderColor = System.Drawing.Color.Transparent;
-            series3.ChartArea = "ChartArea1";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series3.Color = System.Drawing.Color.DarkBlue;
-            series3.Legend = "Center Points";
-            series3.Name = "centers";
-            series3.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Single;
-            series3.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Single;
-            series4.ChartArea = "ChartArea1";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series4.Color = System.Drawing.Color.Gold;
-            series4.Legend = "Center Points";
-            series4.Name = "inspected";
-            this.dieVisualizer.Series.Add(series3);
-            this.dieVisualizer.Series.Add(series4);
+            series7.BorderColor = System.Drawing.Color.Transparent;
+            series7.ChartArea = "ChartArea1";
+            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series7.Color = System.Drawing.Color.DarkBlue;
+            series7.Legend = "Center Points";
+            series7.Name = "centers";
+            series7.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Single;
+            series7.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Single;
+            series8.ChartArea = "ChartArea1";
+            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series8.Color = System.Drawing.Color.Gold;
+            series8.Legend = "Center Points";
+            series8.Name = "inspected";
+            this.dieVisualizer.Series.Add(series7);
+            this.dieVisualizer.Series.Add(series8);
             this.dieVisualizer.Size = new System.Drawing.Size(700, 700);
             this.dieVisualizer.TabIndex = 11;
             this.dieVisualizer.Text = "Die Grid";
-            title2.Alignment = System.Drawing.ContentAlignment.TopRight;
-            title2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
-            title2.Name = "Title1";
-            title2.Text = "Wafer Visualization";
-            this.dieVisualizer.Titles.Add(title2);
+            title4.Alignment = System.Drawing.ContentAlignment.TopRight;
+            title4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            title4.Name = "Title1";
+            title4.Text = "Wafer Visualization";
+            this.dieVisualizer.Titles.Add(title4);
             // 
-            // plotButton
+            // pitchLabel
             // 
-            this.plotButton.AutoSize = true;
-            this.plotButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.plotButton.Location = new System.Drawing.Point(348, 93);
-            this.plotButton.Name = "plotButton";
-            this.plotButton.Size = new System.Drawing.Size(221, 30);
-            this.plotButton.TabIndex = 12;
-            this.plotButton.Text = "Plot Wafer";
-            this.plotButton.UseVisualStyleBackColor = true;
-            this.plotButton.Click += new System.EventHandler(this.PlotButton_Click);
+            this.pitchLabel.AutoSize = true;
+            this.pitchLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pitchLabel.Location = new System.Drawing.Point(7, 80);
+            this.pitchLabel.Name = "pitchLabel";
+            this.pitchLabel.Size = new System.Drawing.Size(171, 20);
+            this.pitchLabel.TabIndex = 13;
+            this.pitchLabel.Text = "Inspection Point Pitch";
+            // 
+            // pitchValue
+            // 
+            this.pitchValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pitchValue.Location = new System.Drawing.Point(183, 78);
+            this.pitchValue.Maximum = new decimal(new int[] {
+            150,
+            0,
+            0,
+            0});
+            this.pitchValue.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.pitchValue.Name = "pitchValue";
+            this.pitchValue.Size = new System.Drawing.Size(160, 26);
+            this.pitchValue.TabIndex = 14;
+            this.pitchValue.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.pitchValue.ValueChanged += new System.EventHandler(this.pitchValue_ValueChanged);
+            // 
+            // savePointsDialogue
+            // 
+            this.savePointsDialogue.DefaultExt = "txt";
+            this.savePointsDialogue.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+            this.savePointsDialogue.FileOk += new System.ComponentModel.CancelEventHandler(this.SavePointsDialogue_FileOk);
+            // 
+            // saveButton
+            // 
+            this.saveButton.AutoSize = true;
+            this.saveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.saveButton.Location = new System.Drawing.Point(371, 109);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(221, 30);
+            this.saveButton.TabIndex = 15;
+            this.saveButton.Text = "Save Inspection Points";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.SaveButton_Click);
             // 
             // Generator
             // 
@@ -301,7 +345,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ClientSize = new System.Drawing.Size(1342, 721);
-            this.Controls.Add(this.plotButton);
+            this.Controls.Add(this.saveButton);
+            this.Controls.Add(this.pitchValue);
+            this.Controls.Add(this.pitchLabel);
             this.Controls.Add(this.dieVisualizer);
             this.Controls.Add(this.heightLabel);
             this.Controls.Add(this.widthLabel);
@@ -324,6 +370,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dieHeightInput)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dieWidthInput)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dieVisualizer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pitchValue)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -343,7 +390,10 @@
         private System.Windows.Forms.Label widthLabel;
         private System.Windows.Forms.Label heightLabel;
         private System.Windows.Forms.DataVisualization.Charting.Chart dieVisualizer;
-        private System.Windows.Forms.Button plotButton;
+        private System.Windows.Forms.Label pitchLabel;
+        private System.Windows.Forms.NumericUpDown pitchValue;
+        private System.Windows.Forms.SaveFileDialog savePointsDialogue;
+        private System.Windows.Forms.Button saveButton;
     }
 }
 
